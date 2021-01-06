@@ -1,47 +1,49 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <time.h>
 #include <conio.h>
+#include <chrono>
+#include <Windows.h>
 
 using namespace std;
 
-// ¹æÇâÀ» À§ÇÑ ¿­°ÅÇü
+// ë°©í–¥ì„ ìœ„í•œ ì—´ê±°í˜•
 enum eDir { STOP = 0, LEFT = 1, UPLEFT = 2, 
 	DOWNLEFT = 3, RIGHT = 4, UPRIGHT = 5, DOWNRIGHT = 6};
 
-class cBall { // OOP¸¦ À§ÇÑ ball class ±¸Çö
+class cBall { // OOPë¥¼ ìœ„í•œ ball class êµ¬í˜„
 	int x, y;
-	int originalX, originalY; // origin À§Ä¡
-	eDir direction; // ¹æÇâÁöÁ¤ 
+	int originalX, originalY; // origin ìœ„ì¹˜
+	eDir direction; // ë°©í–¥ì§€ì • 
 public:
-	cBall(int posX, int posY) // ÃÊ±âÈ­
+	cBall(int posX, int posY) // ì´ˆê¸°í™”
 	{
-		originalX = posX; // ½ÃÀÛÀ§Ä¡
+		originalX = posX; // ì‹œì‘ìœ„ì¹˜
 		originalY = posY;
-		x = posX; y = posY; // °øÀÇ Çö À§Ä¡
+		x = posX; y = posY; // ê³µì˜ í˜„ ìœ„ì¹˜
 		direction = STOP;
 	}
-	void Reset() {  // ÇöÀ§Ä¡°¡ originÀ¸·Î 
+	void Reset() {  // í˜„ìœ„ì¹˜ê°€ originìœ¼ë¡œ 
 		x = originalX; y = originalY;
 		direction = STOP;
 	}
-	void changeDirection(eDir d) // °øÀÇ ¹æÇâº¯°æ
+	void changeDirection(eDir d) // ê³µì˜ ë°©í–¥ë³€ê²½
 	{
 		direction = d;
 	}
-	void randomDirection() // ¹«ÀÛÀ§ ¹æÇâ
+	void randomDirection() // ë¬´ì‘ìœ„ ë°©í–¥
 	{
-		direction = (eDir)((rand() % 6) + 1); // eDirÀÇ 1~6 random¼ö »ı¼º
+		direction = (eDir)((rand() % 6) + 1); // eDirì˜ 1~6 randomìˆ˜ ìƒì„±
 	}
-	int getX() { return x; } // ÀÚµ¿ inlineÇÔ¼ö·Î º¯°æ
+	int getX() { return x; } // ìë™ inlineí•¨ìˆ˜ë¡œ ë³€ê²½
 	int getY() { return y; }
 	eDir getDirection() { return direction; }
 	void Move() {
 		switch (direction)
-		{ // ¿ŞÂÊ»ó´Ü¸ğÅüÀÌ°¡ ÁÂÇ¥ÃàÀÇ Áß½É
+		{ // ì™¼ìª½ìƒë‹¨ëª¨í‰ì´ê°€ ì¢Œí‘œì¶•ì˜ ì¤‘ì‹¬
 		case STOP:
 			break;
 		case LEFT:
-			x--; // --¸¦ ÇØ¾ß left·Î ¿òÁ÷ÀÓ
+			x--; // --ë¥¼ í•´ì•¼ leftë¡œ ì›€ì§ì„
 			break;
 		case RIGHT:
 			x++; 
@@ -58,22 +60,22 @@ public:
 		case DOWNRIGHT:
 			x++; y++;
 			break;
-		default: // À§¾Æ·¡·Î´Â °øÀÌ ¿òÁ÷ÀÌÁö ¾ÊÀ½, ±¸ÇöX
+		default: // ìœ„ì•„ë˜ë¡œëŠ” ê³µì´ ì›€ì§ì´ì§€ ì•ŠìŒ, êµ¬í˜„X
 			break;
 		}
 	}
-	friend ostream& operator<<(ostream& o, cBall c) // output_stream ¿À¹ö·Îµù
+	friend ostream& operator<<(ostream& o, cBall c) // output_stream ì˜¤ë²„ë¡œë”©
 	{
 		o << "Ball [" << c.x << "," << c.y << "][" << c.direction << "]";
 		return o;
 	}
 };
 
-class cPaddle { // ¸·´ë±â class
+class cPaddle { // ë§‰ëŒ€ê¸° class
 	int x, y;
 	int originalX, originalY;
 public:
-	cPaddle() : cPaddle(0, 0) {} // À§ÀÓ»ı¼ºÀÚ
+	cPaddle() : cPaddle(0, 0) {} // ìœ„ì„ìƒì„±ì
 	cPaddle(int posX, int posY)
 	{
 		originalX = posX;
@@ -86,10 +88,10 @@ public:
 	}
 	int getX() { return x; }
 	int getY() { return y; }
-	void moveUp() { y--; } // ¸·´ë±â À§·Î
-	void moveDown() { y++; } // ¸·´ë±â ¾Æ·¡·Î 
+	void moveUp() { y--; } // ë§‰ëŒ€ê¸° ìœ„ë¡œ
+	void moveDown() { y++; } // ë§‰ëŒ€ê¸° ì•„ë˜ë¡œ 
 
-	friend ostream& operator<<(ostream& o, cPaddle c) // output_stream ¿À¹ö·Îµù
+	friend ostream& operator<<(ostream& o, cPaddle c) // output_stream ì˜¤ë²„ë¡œë”©
 	{
 		o << "Paddle [" << c.x << "," << c.y << "]";
 		return o;
@@ -98,9 +100,9 @@ public:
 
 class cGameManager {
 	int width, height;
-	int score1, score2; // playerÀÇ Á¡¼ö 
-	char up1, down1, up2, down2; // ÇÃ·¹ÀÌ¾îÀÇ ¾÷´Ù¿î
-	bool quit; // °ÔÀÓÁ¾·á 
+	int score1, score2; // playerì˜ ì ìˆ˜ 
+	char up1, down1, up2, down2; // í”Œë ˆì´ì–´ì˜ ì—…ë‹¤ìš´
+	bool quit; // ê²Œì„ì¢…ë£Œ 
 	cBall* ball;
 	cPaddle* player1;
 	cPaddle* player2;
@@ -108,39 +110,39 @@ public:
 	cGameManager(int w, int h)
 	{
 		srand(time(NULL));
-		quit = false; // °ÔÀÓÁøÇàÁß
-		up1 = 'w'; up2 = 'i'; // ¹æÇâÅ°
+		quit = false; // ê²Œì„ì§„í–‰ì¤‘
+		up1 = 'w'; up2 = 'i'; // ë°©í–¥í‚¤
 		down1 = 's'; down2 = 'k';
-		score1 = score2 = 0; // Á¡¼ö
+		score1 = score2 = 0; // ì ìˆ˜
 		width = w; height = h;
-		ball = new cBall(w / 2, h / 2); // °øÀº Á¤ Áß¾ÓºÎÅÍ ½ÃÀÛ
-		player1 = new cPaddle(1, h / 2 - 3); // ¿ŞÂÊ
-		player2 = new cPaddle(w-2, h / 2 - 3); // ¿À¸¥ÂÊ
+		ball = new cBall(w / 2, h / 2); // ê³µì€ ì • ì¤‘ì•™ë¶€í„° ì‹œì‘
+		player1 = new cPaddle(1, h / 2 - 3); // ì™¼ìª½
+		player2 = new cPaddle(w-2, h / 2 - 3); // ì˜¤ë¥¸ìª½
 	}
-	~cGameManager() // µ¿ÀûÇÒ´ç ¹ŞÀº heap ¸Ş¸ğ¸® ¹İÈ¯
+	~cGameManager() // ë™ì í• ë‹¹ ë°›ì€ heap ë©”ëª¨ë¦¬ ë°˜í™˜
 	{
 		delete ball, player1, player2;
 	}
-	void ScoreUp(cPaddle* player) // Á¡¼ö°è»ê
+	void ScoreUp(cPaddle* player) // ì ìˆ˜ê³„ì‚°
 	{
 		if (player == player1)
 			score1++;
 		else if (player == player2)
 			score2++;
 
-		ball->Reset();; // Á¡¼öµæÁ¡½Ã °ø, ÇÃ·¹ÀÌ¾î À§Ä¡ ÃÊ±âÈ­
+		ball->Reset();; // ì ìˆ˜ë“ì ì‹œ ê³µ, í”Œë ˆì´ì–´ ìœ„ì¹˜ ì´ˆê¸°í™”
 		player1->Reset();
 		player2->Reset();
 	}
-	void Draw() {
-		system("cls"); // À©µµ¿ì CLS¿¡¼­ ÀÛµ¿, Linux¿¡¼­´Â ¾ÈµÊ
-		for (int i(0); i < width + 2; i++)  // »ó´Ü º®
+	void Draw() { // consoleì— ê·¸ë ¤ì£¼ëŠ” í•¨ìˆ˜ 
+		system("cls"); // ìœˆë„ìš° CLSì—ì„œ ì‘ë™, Linuxì—ì„œëŠ” ì•ˆë¨
+		for (int i(0); i < width + 2; i++)  // ìƒë‹¨ ë²½
 			cout << "#"; 
 		cout << endl;
 
-		for (int i(0); i < height; i++) // I´Â y-coordinate
+		for (int i(0); i < height; i++) // IëŠ” y-coordinate
 		{ 
-			for (int j(0); j < width; j++) // J´Â x-coordinate
+			for (int j(0); j < width; j++) // JëŠ” x-coordinate
 			{
 				int ballx = ball->getX();
 				int bally = ball->getY();
@@ -152,12 +154,26 @@ public:
 				if (j == 0)
 					cout << "#";
 
-				if (ballx == j && bally == i) // °øÀÇ À§Ä¡ 
+				if (ballx == j && bally == i) // ê³µì˜ ìœ„ì¹˜ 
 					cout << "O";
-				else if (player1x == j && player1y == i) // player 1 ¸·´ë 
-					cout << "#;"
-				else if (player2x == j && player2y == i) // player 2 ¸·´ë 
-					cout << "#;"
+				else if (player1x == j && player1y == i) // player 1 ë§‰ëŒ€ 
+					cout << "\xDB";
+				else if (player2x == j && player2y == i) // player 2 ë§‰ëŒ€ 
+					cout << "\xDB";
+
+				else if (player1x == j && player1y + 1 == i) // player 1 ë§‰ëŒ€ 
+					cout << "\xDB";
+				else if (player1x == j && player1y + 2 == i) // player 1 ë§‰ëŒ€ 
+					cout << "\xDB";
+				else if (player1x == j && player1y + 3 == i) // player 1 ë§‰ëŒ€ 
+					cout << "\xDB";
+
+				else if (player2x == j && player2y + 1 == i) // player 2 ë§‰ëŒ€ 
+					cout << "\xDB";
+				else if (player2x == j && player2y + 2 == i) // player 2 ë§‰ëŒ€ 
+					cout << "\xDB";
+				else if (player2x == j && player2y + 3 == i) // player 2 ë§‰ëŒ€ 
+					cout << "\xDB";
 				else
 					cout << " ";
 
@@ -167,16 +183,98 @@ public:
 			cout << endl;
 		}
 
-		for (int i(0); i < width + 2; i++)  // ÇÏ´Ü º® 
+		for (int i(0); i < width + 2; i++)  // í•˜ë‹¨ ë²½ 
 			cout << "#";
 		cout << endl;
+
+		cout << "Score 1: " << score1 << endl <<"Score 2: " << score2 << endl;
+		cout << "Github > https://github.com/zbqmgldjfh/Ping_Pong" << endl;
+		cout << "Blog > https://blog.naver.com/zbqmgldjfh" << endl;
+	}
+	void Input() // ê³µ ì›€ì§ì´ê¸° 
+	{
+		ball->Move();
+
+		int ballx = ball->getX();
+		int bally = ball->getY();
+		int player1x = player1->getX();
+		int player2x = player2->getX();
+		int player1y = player1->getY();
+		int player2y = player2->getY();
+
+		if (_kbhit())
+		{
+			char current = _getch();
+			if (current == up1)
+				if (player1y > 0)
+					player1->moveUp();
+			if (current == up2)
+				if (player2y > 0)
+					player2->moveUp();
+			if (current == down1)
+				if (player1y + 4 < height) // 4ì¹¸ì´ map heightë³´ë‹¤ëŠ” ì‘ì•„ì•¼í•¨ 
+					player1->moveDown();
+			if (current == down2)
+				if (player2y + 4 < height) // 4ì¹¸ì´ map heightë³´ë‹¤ëŠ” ì‘ì•„ì•¼í•¨ 
+					player2->moveDown();
+
+			if (ball->getDirection() == STOP)
+				ball->randomDirection();
+
+			if (current == 'q')
+				quit = true;
+		}
+	}
+	void Logic()
+	{
+		int ballx = ball->getX();
+		int bally = ball->getY();
+		int player1x = player1->getX();
+		int player2x = player2->getX();
+		int player1y = player1->getY();
+		int player2y = player2->getY();
+
+		// ì™¼ìª½ ë§‰ëŒ€
+		for (int i = 0; i < 4; i++)
+			if (ballx == player1x + 1)
+				if (bally == player1y + i)
+					ball->changeDirection((eDir)((rand() % 3) + 4)); // ê³µì´ ë§ìœ¼ë©´ íŠ•ê¸¸ ë°©í–¥ì´ 4, 5, 6ì¤‘ í•˜ë‚˜ì—¬ì•¼í•¨
+
+		// ì˜¤ë¥¸ìª½ ë§‰ëŒ€
+		for (int i = 0; i < 4; i++)
+			if (ballx == player2x - 1)
+				if (bally == player2y + i)
+					ball->changeDirection((eDir)((rand() % 3) + 1)); // ê³µì´ ë§ìœ¼ë©´ íŠ•ê¸¸ ë°©í–¥ì´ 1, 2, 3ì¤‘ í•˜ë‚˜ì—¬ì•¼í•¨
+
+		// ì•„ë˜ ë²½ì— ë„ë‹¬í•œ ê²½ìš°
+		if (bally == height - 1)
+			ball->changeDirection(ball->getDirection() == DOWNRIGHT ? UPRIGHT : UPLEFT);
+		// ìœ„ìª½ ë²½ì— ë„ë‹¬í•œ ê²½ìš° 
+		if (bally == 0)
+			ball->changeDirection(ball->getDirection() == UPRIGHT ? DOWNRIGHT : DOWNLEFT);\
+		// ì˜¤ë¥¸ìª½ ë²½ì— ë„ë‹¬í•œ ê²½ìš°
+		if (ballx == width - 1)
+			ScoreUp(player1);
+		// ì™¼ìª½ ë²½ì— ë„ë‹¬í•œ ê²½ìš°
+		if (ballx == 0)
+			ScoreUp(player2);
+	}
+
+	void Run()
+	{
+		while (!quit) // ì‚¬ìš©ìê°€ q ëˆ„ë¥´ê¸° ì „ê¹Œì§„ ë°˜ë³µ
+		{
+			Draw();
+			Input();
+			Logic();
+		}
 	}
 };
 
 int main(void) 
 {
 	cGameManager c(40, 20);
-	c.Draw();
+	c.Run();
 
 	return 0;
 }
