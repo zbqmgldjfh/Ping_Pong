@@ -132,17 +132,51 @@ public:
 		player1->Reset();
 		player2->Reset();
 	}
+	void Draw() {
+		system("cls"); // 윈도우 CLS에서 작동, Linux에서는 안됨
+		for (int i(0); i < width + 2; i++)  // 상단 벽
+			cout << "#"; 
+		cout << endl;
+
+		for (int i(0); i < height; i++) // I는 y-coordinate
+		{ 
+			for (int j(0); j < width; j++) // J는 x-coordinate
+			{
+				int ballx = ball->getX();
+				int bally = ball->getY();
+				int player1x = player1->getX();
+				int player2x = player2->getX();
+				int player1y = player1->getY();
+				int player2y = player2->getY();
+
+				if (j == 0)
+					cout << "#";
+
+				if (ballx == j && bally == i) // 공의 위치 
+					cout << "O";
+				else if (player1x == j && player1y == i) // player 1 막대 
+					cout << "#;"
+				else if (player2x == j && player2y == i) // player 2 막대 
+					cout << "#;"
+				else
+					cout << " ";
+
+				if (j == width-1)
+					cout << "#";
+			}
+			cout << endl;
+		}
+
+		for (int i(0); i < width + 2; i++)  // 하단 벽 
+			cout << "#";
+		cout << endl;
+	}
 };
 
-int main(void) {
-	cPaddle p1(0, 0);
-	cPaddle p2(10, 0);
-	cout << p1 << endl;
-	cout << p2 << endl;
-	p1.moveUp();
-	p2.moveDown();
-	cout << p1 << endl;
-	cout << p2 << endl; 
+int main(void) 
+{
+	cGameManager c(40, 20);
+	c.Draw();
 
 	return 0;
 }
