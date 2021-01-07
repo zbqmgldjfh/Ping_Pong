@@ -136,8 +136,8 @@ public:
 	}
 	void Draw() { // console에 그려주는 함수 
 		system("cls"); // 윈도우 CLS에서 작동, Linux에서는 안됨
-		for (int i(0); i < width + 2; i++)  // 상단 벽
-			cout << "#"; 
+		for (int i(0); i < width/2 + 2; i++)  // 상단 벽
+			cout << "□"; 
 		cout << endl;
 
 		for (int i(0); i < height; i++) // I는 y-coordinate
@@ -152,39 +152,39 @@ public:
 				int player2y = player2->getY();
 
 				if (j == 0)
-					cout << "#";
+					cout << "□";
 
 				if (ballx == j && bally == i) // 공의 위치 
 					cout << "O";
 				else if (player1x == j && player1y == i) // player 1 막대 
-					cout << "\xDB";
+					cout << "|";
 				else if (player2x == j && player2y == i) // player 2 막대 
-					cout << "\xDB";
+					cout << "|";
 
 				else if (player1x == j && player1y + 1 == i) // player 1 막대 
-					cout << "\xDB";
+					cout << "|";
 				else if (player1x == j && player1y + 2 == i) // player 1 막대 
-					cout << "\xDB";
+					cout << "|";
 				else if (player1x == j && player1y + 3 == i) // player 1 막대 
-					cout << "\xDB";
+					cout << "|";
 
 				else if (player2x == j && player2y + 1 == i) // player 2 막대 
-					cout << "\xDB";
+					cout << "|";
 				else if (player2x == j && player2y + 2 == i) // player 2 막대 
-					cout << "\xDB";
+					cout << "|";
 				else if (player2x == j && player2y + 3 == i) // player 2 막대 
-					cout << "\xDB";
+					cout << "|";
 				else
 					cout << " ";
 
 				if (j == width-1)
-					cout << "#";
+					cout << "□";
 			}
 			cout << endl;
 		}
 
-		for (int i(0); i < width + 2; i++)  // 하단 벽 
-			cout << "#";
+		for (int i(0); i < width/2 + 2; i++)  // 하단 벽 
+			cout << "□";
 		cout << endl;
 
 		cout << "Score 1: " << score1 << endl <<"Score 2: " << score2 << endl;
