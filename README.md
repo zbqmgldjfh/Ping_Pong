@@ -14,6 +14,13 @@ ______________________
 |**cPaddle**|위치정보(originalX, originalY)|현위치 초기화:Reset(), 위아래이동:moveUP(),moveDown()|
 |**cGameManager**|console높너비, 점수판, 플레이어입력key값| 점수계산:ScoreUp(), 출력문:Draw(), 공이동:Input(), 공방향지정:Logic(), 실행:Run()|
 
+## mian내부의 중요 함수 3가지
+```C
+Draw(); // 화면에 출력하는 함수
+Input(); // user의 input을 받아들이고 작용하는
+Logic(); // 공의방향지정, paddle의 움직임, 종료조건등 논리부분
+```
+
 ## 방향설계
 
 ```C
